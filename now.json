@@ -1,6 +1,8 @@
 {
     "version": 1,
     "env": {
-        "TOKEN": "@sleeptrip-token"
+        "BOT_TOKEN": "@sleeptrip-token",
+        "TWILIO_TOKEN": "@twilio-token",
+        "TWILIO_SID": "@twilio-sid"
     }
 }

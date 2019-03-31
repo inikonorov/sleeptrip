@@ -1,9 +1,14 @@
-const { Composer, Markup } = require('micro-bot');
+const { Composer, Markup, Extra } = require('micro-bot');
+
+const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 const bot = new Composer();
 
 // массив расстояний до остановки
 const distances = ['500', '1000'];
+
+// телефон пользователя
+let userPhone = '';
 
 // выбранное пользователем расстояние
 let choosedDistance = 0;
@@ -56,12 +61,31 @@ bot.command('start', ctx => {
     // сбрасываем значения переменных
     resetVariables();
 
-    ctx.replyWithMarkdown(
-        'За какое кол-во метров тебя необходимо будет разбудить?',
-        Markup.keyboard([distances])
-            .resize()
-            .extra()
+    return ctx.reply(
+        'Могу ли я получить твой номер телефона?',
+        Extra.markup(markup => {
+            return markup.resize().keyboard([markup.contactRequestButton('Поделиться телефоном')]);
+        })
     );
+});
+
+// ловим контакт
+bot.on('contact', ctx => {
+    // проверяем, что мы действительно поделились контактом
+    if (ctx.update.message.from.id === ctx.update.message.contact.user_id) {
+        userPhone = ctx.update.message.contact.phone_number;
+
+        ctx.reply('Спасибо, что поделился телефоном! ', Markup.removeKeyboard().extra());
+
+        ctx.replyWithMarkdown(
+            'За какое количество метров до пункта назначения тебя необходимо будет разбудить?',
+            Markup.keyboard([distances])
+                .resize()
+                .extra()
+        );
+    } else {
+        ctx.reply('Ты отправил не свой номер телефона, попробуй еще раз!');
+    }
 });
 
 // ловим вброс локации от пользователя
@@ -100,7 +124,12 @@ bot.on('edited_message', ctx => {
         if (distanceBetweenPoints < choosedDistance) {
             isCallCompleted = true;
 
-            ctx.reply('Ты на месте! Бужу тебя!');
+            // выполняем звонок
+            twilio.calls.create({
+                url: 'http://demo.twilio.com/docs/voice.xml',
+                to: userPhone,
+                from: '+15102395065',
+            });
         } else {
             isCallCompleted = false;
 

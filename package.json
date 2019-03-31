@@ -6,7 +6,7 @@
   "scripts": {
     "deploy": "now rm %npm_package_name% && now",
     "dev": "micro-bot -e .env",
-    "now-start": "micro-bot -d ${NOW_URL} -t ${TOKEN}"
+    "now-start": "micro-bot -d ${NOW_URL} -t ${BOT_TOKEN} ${TWILIO_SID} ${TWILIO_TOKEN}"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/inikonorov/sleeptrip#readme",
   "dependencies": {
-    "micro-bot": "^2.5.3"
+    "micro-bot": "^2.5.3",
+    "twilio": "^3.30.0"
   },
   "devDependencies": {
     "eslint": "^5.3.0",
