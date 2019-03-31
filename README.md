@@ -16,4 +16,5 @@ Do you want to get a sleep while traveling in public transport, but afraid to ov
 - [x] Definition location of user
 - [x] Definition location of entered station
 - [x] Correct evaluation the distance between user and station 
+- [ ] Find the algorithm of distinguish 'location' and 'live location' messages
 - [ ] Calls to user 
