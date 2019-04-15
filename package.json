@@ -4,9 +4,9 @@
   "description": "Do you want to get a sleep while traveling in public transport, but afraid to oversleep? This app is for you :heart:",
   "main": "index.js",
   "scripts": {
-    "deploy": "now rm %npm_package_name% && now",
+    "deploy": "now rm %npm_package_name% && now -e TWILIO_SID=@twilio-sid -e TWILIO_TOKEN=@twilio-token",
     "dev": "micro-bot -e .env",
-    "now-start": "micro-bot -d ${NOW_URL} -t ${BOT_TOKEN} ${TWILIO_SID} ${TWILIO_TOKEN}"
+    "start": "micro-bot -d ${NOW_URL} -t ${BOT_TOKEN}"
   },
   "repository": {
     "type": "git",
