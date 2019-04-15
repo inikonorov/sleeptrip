@@ -75,10 +75,8 @@ bot.on('contact', ctx => {
     if (ctx.update.message.from.id === ctx.update.message.contact.user_id) {
         userPhone = ctx.update.message.contact.phone_number;
 
-        ctx.reply('Спасибо, что поделился телефоном! ', Markup.removeKeyboard().extra());
-
         ctx.replyWithMarkdown(
-            'За какое количество метров до пункта назначения тебя необходимо будет разбудить?',
+            'Спасибо, что поделился телефоном! За какое количество метров до пункта назначения тебя необходимо будет разбудить?',
             Markup.keyboard([distances])
                 .resize()
                 .extra()
@@ -144,10 +142,9 @@ bot.hears(distances, ctx => {
     choosedDistance = ctx.update.message.text;
 
     ctx.reply(
-        `Окей, разбужу тебя за ${choosedDistance} метров до остановки!`,
+        `Окей, разбужу тебя за ${choosedDistance} метров до остановки! Прикрепи локацию, до которой ты едешь!`,
         Markup.removeKeyboard().extra()
     );
-    ctx.reply('Прикрепи локацию, до которой ты едешь!');
 });
 
 // ловим команду /about
